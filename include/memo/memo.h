@@ -1,0 +1,38 @@
+#ifndef MEMO_H
+#define MEMO_H
+#include <memo/page.h>
+#include <pthread.h>
+
+typedef void (*MemoDestructorFunc)(void* ptr);
+
+typedef struct {
+  int64_t item_size;
+  int64_t page_capacity;
+  MemoDestructorFunc destructor;
+} MemoConfig;
+
+typedef struct {
+  MemoConfig config;
+  MemoPage* pages;
+  int64_t pages_length;
+
+  pthread_mutex_t lock;
+
+  bool initialized;
+} Memo;
+
+typedef struct {
+  Memo* memo;
+  int64_t current_page;
+  int64_t page_cursor;
+} MemoIterator;
+
+int memo_init(Memo* memo, MemoConfig cfg);
+
+void* memo_malloc(Memo* memo);
+
+int memo_clear(Memo* memo);
+
+void* memo_iter(Memo* memo, MemoIterator* it);
+
+#endif

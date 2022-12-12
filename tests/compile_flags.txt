@@ -1,0 +1,7 @@
+-I/usr/local/include
+-I/usr/include
+-I./include
+-I../include
+
+-I../build/_deps/hashy_static-src/include
+-I../build/_deps/date_static-src/include
