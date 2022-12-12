@@ -129,9 +129,12 @@ void test_iter(int count) {
   }
 
   MEMO_ASSERT(nr_iterations == count);
+  MEMO_ASSERT(memo.count == count);
 
 
   memo_clear(&memo);
+
+  MEMO_ASSERT(memo.count == 0);
 }
 
 int main(int argc, char* argv[]){

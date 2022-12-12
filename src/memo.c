@@ -22,6 +22,7 @@ int memo_init(Memo *memo, MemoConfig cfg) {
   memo->config = cfg;
   memo->pages = 0;
   memo->pages_length = 0;
+  memo->count = 0;
 
   return 1;
 }
@@ -96,6 +97,8 @@ void *memo_malloc(Memo *memo) {
 
   void *ptr = memo_page_malloc(page);
 
+  memo->count += 1;
+
   pthread_mutex_unlock(&memo->lock);
 
   return ptr;
@@ -125,6 +128,7 @@ int memo_clear(Memo *memo) {
 
   memo->pages = 0;
   memo->pages_length = 0;
+  memo->count = 0;
 
   return 1;
 }

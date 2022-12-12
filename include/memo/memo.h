@@ -15,6 +15,7 @@ typedef struct {
   MemoConfig config;
   MemoPage* pages;
   int64_t pages_length;
+  int64_t count;
 
   pthread_mutex_t lock;
 
