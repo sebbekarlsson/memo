@@ -21,8 +21,8 @@ target_compile_options(memo_static PUBLIC -fPIC)
 
 
 # Debug
-target_compile_options(memo PUBLIC -fPIC -g -Wall)
-target_compile_options(memo_static PUBLIC -fPIC -g -Wall)
+target_compile_options(memo PRIVATE -fPIC -Wall)
+target_compile_options(memo_static PRIVATE -fPIC -Wall)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
