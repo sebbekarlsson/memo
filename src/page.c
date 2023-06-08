@@ -39,6 +39,21 @@ void* memo_page_malloc(MemoPage* page) {
   return bytes;
 }
 
+void* memo_page_malloc_n(MemoPage* page, int64_t count) {
+  if (!page) return 0;
+  if (!page->initialized) MEMO_WARNING_RETURN(0, stderr, "page not initialized.\n");
+  if (page->data == 0) MEMO_WARNING_RETURN(0, stderr, "page->data == 0.\n");
+  if (page->cursor >= page->capacity) return 0;
+  if (page->item_size <= 0) MEMO_WARNING_RETURN(0, stderr, "page->item_size <= 0.\n");
+  if (count <= 0) MEMO_WARNING_RETURN(0, stderr, "count <= 0.\n");
+
+
+  uint8_t* bytes = &page->data[page->cursor];
+  page->cursor += page->item_size * count;
+
+
+  return bytes;
+}
 
 int memo_page_clear(MemoPage* page) {
   if (!page) return 0;

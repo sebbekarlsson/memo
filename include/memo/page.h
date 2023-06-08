@@ -19,7 +19,9 @@ int memo_page_init(
 );
 
 
-void* memo_page_malloc(MemoPage* page);
+void *memo_page_malloc(MemoPage *page);
+
+void* memo_page_malloc_n(MemoPage* page, int64_t count);
 
 int memo_page_clear(MemoPage* page);
 

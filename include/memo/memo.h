@@ -32,6 +32,8 @@ int memo_init(Memo* memo, MemoConfig cfg);
 
 void* memo_malloc(Memo* memo);
 
+void* memo_malloc_n(Memo* memo, int64_t count);
+
 int memo_clear(Memo* memo);
 
 void* memo_iter(Memo* memo, MemoIterator* it);

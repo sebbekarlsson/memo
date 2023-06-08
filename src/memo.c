@@ -104,6 +104,34 @@ void *memo_malloc(Memo *memo) {
   return ptr;
 }
 
+void *memo_malloc_n(Memo *memo, int64_t count) {
+  if (!memo) return 0;
+  if (count <= 0) MEMO_WARNING_RETURN(0, stderr, "count <= 0.\n");
+  if (count > memo->config.page_capacity) MEMO_WARNING_RETURN(0, stderr, "(count * item_size) >= page_capacity\n");
+  
+  pthread_mutex_lock(&memo->lock);
+
+  if (!memo->initialized) {
+    pthread_mutex_unlock(&memo->lock);
+    MEMO_WARNING_RETURN(0, stderr, "memo not initialized.\n");
+  }
+
+  MemoPage *page = memo_get_avail_page(memo);
+
+  if (!page) {
+    pthread_mutex_unlock(&memo->lock);
+    MEMO_WARNING_RETURN(0, stderr, "Failed to fetch page.\n");
+  }
+
+  void *ptr = memo_page_malloc_n(page, count);
+
+  memo->count += count;
+
+  pthread_mutex_unlock(&memo->lock);
+
+  return ptr;
+}
+
 int memo_clear(Memo *memo) {
   if (!memo)
     return 0;
