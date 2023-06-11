@@ -44,6 +44,7 @@ void* memo_page_malloc_n(MemoPage* page, int64_t count) {
   if (!page->initialized) MEMO_WARNING_RETURN(0, stderr, "page not initialized.\n");
   if (page->data == 0) MEMO_WARNING_RETURN(0, stderr, "page->data == 0.\n");
   if (page->cursor >= page->capacity) return 0;
+  if ((page->cursor+(count * page->item_size)) > page->capacity) return 0;
   if (page->item_size <= 0) MEMO_WARNING_RETURN(0, stderr, "page->item_size <= 0.\n");
   if (count <= 0) MEMO_WARNING_RETURN(0, stderr, "count <= 0.\n");
 

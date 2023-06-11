@@ -125,6 +125,11 @@ void *memo_malloc_n(Memo *memo, int64_t count) {
 
   void *ptr = memo_page_malloc_n(page, count);
 
+  if (!ptr) {
+    pthread_mutex_unlock(&memo->lock);
+    MEMO_WARNING_RETURN(0, stderr, "Allocation failure.\n");
+  }
+
   memo->count += count;
 
   pthread_mutex_unlock(&memo->lock);
